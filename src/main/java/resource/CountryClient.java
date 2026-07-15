@@ -8,8 +8,8 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import java.util.List;
 
 
-@Path("/v3.1")
-@RegisterRestClient(configKey = "countries-api")
+
+@RegisterRestClient(baseUri = "https://restcountries.com/v5" , configKey = "country-api")
 public interface CountryClient {
     @GET
     @Path("/all")

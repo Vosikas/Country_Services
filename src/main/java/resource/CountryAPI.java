@@ -10,7 +10,7 @@ import service.CountryCaller;
 
 import java.util.List;
 
-@Path("api/countries")
+@Path("api/v1/countries")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CountryAPI {

@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import resource.CountryClient;
 
 import java.util.List;
@@ -15,15 +16,17 @@ import java.util.List;
 @ApplicationScoped
 public class StartupLoader {
     @Inject
+    @RestClient
     CountryClient countryClient;
 
-    @Transactional
+
     public void putData(@Observes StartupEvent loader) {
         List<CountriesDTO> fetchData;
         if (Countries.count() > 0) {
             System.out.println("System already ready");
             return;
         } else {
+
             fetchData = countryClient.fetchCountries("name,currencies");
         }
         System.out.println("Data insertion starts now");
@@ -38,7 +41,7 @@ public class StartupLoader {
                 countries.currency = "none";
             }
             countries.persist();
-        System.out.println("Succesfull load of " + Countries.count() + " countries");
+        System.out.println(STR."Succesfull load of \{Countries.count()} countries");
 
         }
     }

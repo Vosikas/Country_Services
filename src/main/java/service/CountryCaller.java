@@ -17,7 +17,7 @@ public class CountryCaller {
                 .list();
     }
     public Countries FindCountry(String name){
-        String query_name = "%" + name + "%";
+        String query_name = STR."%\{name}%";
         return Countries.find("name ILIKE ?1", query_name).firstResult();
     }
     public List<Countries> FindCurrencyCode(String currency){

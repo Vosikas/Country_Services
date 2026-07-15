@@ -10,4 +10,9 @@ public class Countries extends PanacheEntity{
     public String name;
     @Column
     public String currency;
+
+    public String getName(String name){
+        return name;
+    }
+
 }
