@@ -17,35 +17,13 @@ import java.util.List;
 public class StartupLoader {
     @Inject
     @RestClient
-    CountryClient countryClient;
+    CountryCaller countryCaller ;
 
 
     public void putData(@Observes StartupEvent loader) {
-        List<CountriesDTO> fetchData;
-        if (Countries.count() > 0) {
-            System.out.println("System already ready");
-            return;
-        } else {
+        System.out.println("Server started");
+        countryCaller.fetchAndSaveCountries();
 
-            fetchData = countryClient.fetchCountries("name,currencies");
-        }
-        System.out.println("Data insertion starts now");
-        for (CountriesDTO dto : fetchData) {
-            Countries countries = new Countries();
-            countries.name = dto.name.official;
-            if(dto.currencies != null && !dto.currencies.isEmpty()){
-                String currencyKey = dto.currencies.keySet().iterator().next();
-                countries.currency = dto.currencies.get(currencyKey).name;
-            }
-            else{
-                countries.currency = "none";
-            }
-            countries.persist();
-        System.out.println(STR."Succesfull load of \{Countries.count()} countries");
-
-        }
-    }
+    }}
 
 
-
-}

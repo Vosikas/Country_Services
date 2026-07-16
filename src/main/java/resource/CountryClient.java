@@ -9,10 +9,10 @@ import java.util.List;
 
 
 
-@RegisterRestClient(baseUri = "https://restcountries.com/v5" , configKey = "country-api")
+@RegisterRestClient(baseUri = "https://api.restcountries.com" , configKey = "country-api")
 public interface CountryClient {
     @GET
-    @Path("/all")
+    @Path("/countries/v5")
     @Produces(MediaType.APPLICATION_JSON)
     List<CountriesDTO> fetchCountries(@QueryParam("fields") String fields);
 }
