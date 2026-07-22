@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Countries extends PanacheEntity{
     @Column(nullable = false)
-    public String name;
+    public String names;
     @Column
     public String currency;
 

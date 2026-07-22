@@ -8,10 +8,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "jakarta")
 public interface NameMapper {
     NameMapper INSTANCE = Mappers.getMapper(NameMapper.class);
 
-    @Mapping(source="name" , target = "official")
-    CountriesDTO.NameDTO nameToDtoName(String name);
+    @Mapping(source="names" , target = "official")
+    CountriesDTO.NameDTO nameToDtoName(String names);
 }

@@ -10,9 +10,12 @@ public class ErrorsDTO {
             this.message = message;
             this.statusCode =statusCode;
             this.timestamp = LocalDateTime.now().toString();
-
-
+    }
+    public String getMessage(){
+        return message;
     }
 
-
+    public int getStatusCode() {
+        return statusCode;
+    }
 }

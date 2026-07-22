@@ -2,6 +2,8 @@ package service;
 
 
 import DTO.CountriesDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import db.Countries;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -11,6 +13,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import resource.CountryClient;
 
 import java.util.List;
+
+
 
 @ApplicationScoped
 public class CountryCaller {
@@ -27,11 +31,17 @@ public class CountryCaller {
             return;
         }
 
-
-
         try {
-            List<CountriesDTO> fetchData = countryClient.fetchCountries("name,currencies");
 
+            String RawJSON  = countryClient.fetchCountries("names,currencies");
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode objectNode = mapper.readTree(RawJSON)
+                    .path("data")
+                    .path("objects");
+            List<CountriesDTO> fetchData = mapper.readValue(
+                    objectNode.toString(),
+                    mapper.getTypeFactory().constructCollectionType(List.class, CountriesDTO.class)
+            );
             for (CountriesDTO dto : fetchData) {
 
                 Countries country = mapDtoToEntity(dto);
@@ -50,10 +60,10 @@ public class CountryCaller {
 
     public Countries mapDtoToEntity(CountriesDTO dto) {
         Countries country = new Countries();
-        country.name = dto.name.official;
+        country.names = dto.names.official;
         if (dto.currencies != null && !dto.currencies.isEmpty()) {
-            String currencyKey = dto.currencies.keySet().iterator().next();
-            country.currency = dto.currencies.get(currencyKey).name;
+
+            country.currency = dto.currencies.get(0).name;
         } else {
             country.currency = "none";
         }
@@ -67,12 +77,14 @@ public class CountryCaller {
                 .page(page,size)
                 .list();
     }
-    public Countries FindCountry(String name){
-        String query_name = STR."%\{name}%";
-        return Countries.find("name ILIKE ?1", query_name).firstResult();
+    public Countries FindCountry(String names){
+        String query_name = STR."%\{names.toLowerCase()}%";
+        System.out.println("ΨΑΧΝΩ ΓΙΑ: [" + query_name + "]");
+        return Countries.find("LOWER(names) LIKE ?1", query_name).firstResult();
     }
     public List<Countries> FindCurrencyCode(String currency){
         return Countries.list("currency" , currency);
     }
+
 
 }

@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
-public class ExtensionsMapper {
+public class ExceptionsMapper {
     @ServerExceptionMapper
     public RestResponse<ErrorsDTO> mapCountryFoundException(CountryNotFoundException ex){
             ErrorsDTO error = new ErrorsDTO(ex.getMessage() ,404);
@@ -24,7 +24,7 @@ public class ExtensionsMapper {
 
     @ServerExceptionMapper
     public RestResponse<ErrorsDTO> mapGeneric_Throwable(Generic_Throwable ex){
-        ErrorsDTO error = new ErrorsDTO("An unexpected error occurred." , 500 );
+        ErrorsDTO error = new ErrorsDTO("An unexpected error occurred" , 500 );
         return RestResponse.status(Response.Status.INTERNAL_SERVER_ERROR , error);
     }
 }

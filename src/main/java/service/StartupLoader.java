@@ -16,7 +16,7 @@ import java.util.List;
 @ApplicationScoped
 public class StartupLoader {
     @Inject
-    @RestClient
+
     CountryCaller countryCaller ;
 
 
