@@ -3,6 +3,7 @@ package service;
 import DTO.CountriesDTO;
 import db.Countries;
 import io.quarkiverse.cxf.annotation.CXFClient;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.oorsprong.websamples.ArrayOftCountryCodeAndName;
@@ -22,6 +23,7 @@ public class SOAPcaller {
         TCountryInfo country = soapService.fullCountryInfo(ISO);
         return country.getSName();
     }
+    @CacheResult(cacheName = "countries - list")
     public ArrayOftCountryCodeAndName getAllCountries() {
         return soapService.listOfCountryNamesByCode();
     }

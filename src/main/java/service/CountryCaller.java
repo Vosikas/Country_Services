@@ -42,6 +42,7 @@ public class CountryCaller {
                     objectNode.toString(),
                     mapper.getTypeFactory().constructCollectionType(List.class, CountriesDTO.class)
             );
+            System.out.println("Το API έφερε συνολικά: " + fetchData.size() + " χώρες.");
             for (CountriesDTO dto : fetchData) {
 
                 Countries country = mapDtoToEntity(dto);
@@ -55,6 +56,7 @@ public class CountryCaller {
         } catch (Exception e) {
             System.err.println("Failed to hit API " + e.getMessage());
         }
+
     }
 
 
@@ -70,6 +72,7 @@ public class CountryCaller {
 
         return country;
     }
+
 
 
     public List<Countries> getCountries(int page , int size){

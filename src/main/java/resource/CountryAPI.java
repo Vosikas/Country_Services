@@ -4,6 +4,7 @@ package resource;
 import DTO.CountriesDTO;
 import DTO.SoapDTO;
 import db.Countries;
+import io.quarkus.cache.CacheResult;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -20,6 +21,7 @@ public class CountryAPI {
     CountryCaller countryCaller;
 
     @GET
+    @CacheResult(cacheName = "rest-countries-list")
     public List<Countries> getAllCountries(@QueryParam("page")@DefaultValue("0") int page , @QueryParam("size") @DefaultValue("10") int size){
         return countryCaller.getCountries(page,size);
     }
