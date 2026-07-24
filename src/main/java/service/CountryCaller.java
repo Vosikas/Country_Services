@@ -1,6 +1,6 @@
 package service;
-
-
+import io.quarkus.logging.Log;
+import org.jboss.logging.Logger;
 import DTO.CountriesDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @ApplicationScoped
 public class CountryCaller {
-
+    private static final Logger LOG = Logger.getLogger(CountryCaller.class);
     @Inject
     @RestClient
     CountryClient countryClient;
@@ -27,7 +27,7 @@ public class CountryCaller {
     @Transactional
     public void fetchAndSaveCountries() {
         if (Countries.count() > 0) {
-            System.out.println("System already full");
+            Log.info("System already full");
             return;
         }
 
@@ -42,7 +42,7 @@ public class CountryCaller {
                     objectNode.toString(),
                     mapper.getTypeFactory().constructCollectionType(List.class, CountriesDTO.class)
             );
-            System.out.println("Το API έφερε συνολικά: " + fetchData.size() + " χώρες.");
+            Log.info("Το API έφερε συνολικά: " + fetchData.size() + " χώρες.");
             for (CountriesDTO dto : fetchData) {
 
                 Countries country = mapDtoToEntity(dto);
@@ -51,10 +51,10 @@ public class CountryCaller {
                 }
                 country.persist();
             }
-            System.out.println("Succesfully loaded " + Countries.count() + " countries.");
+            Log.info("Succesfully loaded " + Countries.count() + " countries.");
 
         } catch (Exception e) {
-            System.err.println("Failed to hit API " + e.getMessage());
+            Log.error("Failed to hit API " + e.getMessage());
         }
 
     }

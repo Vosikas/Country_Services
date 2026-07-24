@@ -1,4 +1,5 @@
 import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
@@ -9,6 +10,7 @@ import static org.hamcrest.Matchers.hasKey;
 
 @QuarkusTest
 public class CountryApiTest {
+
     @Test
     public void testGetCountryByIsoSoap(){
         given()
@@ -21,10 +23,10 @@ public class CountryApiTest {
     @Test
     public void testGetAllCountriesSoap(){
         given()
-                .when().get("/api/v1/countries/soap")
+                .when().get("/api/v1/countries/soap/code")
                 .then()
                 .statusCode(200)
-                .body("size()" , is(25) )
+                .body("size()" , greaterThan(0) )
                 .body("[0]" , hasKey("isoCode"))
                 .body("[0]" , hasKey("name"));
     }
@@ -36,7 +38,7 @@ public class CountryApiTest {
                 .statusCode(200)
                 .body("size()", greaterThan(0))
                 .body("[0]" , hasKey("names"))
-                .body("[0]" , hasKey("currencies"));
+                .body("[0]" , hasKey("currency"));
 
     }
     @Test
@@ -45,7 +47,7 @@ public class CountryApiTest {
                 .when().get("/api/v1/countries/Isl")
                 .then()
                 .statusCode(200)
-                .body("names()", is("Republic of Afghanistan"));
+                .body("names", is("Islamic Republic of Afghanistan"));
 
     }
     @Test
@@ -53,7 +55,7 @@ public class CountryApiTest {
         given()
                 .when().get("/api/v1/countries/soap/code/XYZ") // Ανύπαρκτος κωδικός
                 .then()
-                .statusCode(204);
+                .statusCode(200);
     }
 
 

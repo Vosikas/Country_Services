@@ -1,6 +1,4 @@
 package resource;
-
-
 import DTO.CountriesDTO;
 import DTO.SoapDTO;
 import db.Countries;
@@ -17,8 +15,13 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CountryAPI {
+
     @Inject
     CountryCaller countryCaller;
+    @Inject
+    SOAPcaller soapCaller;
+    @Inject
+    CountriesMapper mapper;
 
     @GET
     @CacheResult(cacheName = "rest-countries-list")
@@ -37,16 +40,11 @@ public class CountryAPI {
     public List<Countries> findCountriesByCurrency(@PathParam("currencyCode") String currencyCode){
         return countryCaller.FindCurrencyCode(currencyCode);
     }
-    @Inject
-    SOAPcaller soapCaller;
 
-    @Inject
-    CountriesMapper mapper;
     @GET
     @Path("/soap/code/{code}")
     public String findCountryByISO(@PathParam("code") String code){
         return soapCaller.getCountryByIso(code);
-
     }
 
     @GET
