@@ -17,8 +17,7 @@ public class CountryApiTest {
                 .when().get("/api/v1/countries/soap/code/GR")
                 .then()
                 .statusCode(200)
-                .body(is("Greece"));
-    }
+                .body(is("Greece"));}
 
     @Test
     public void testGetAllCountriesSoap(){
@@ -28,8 +27,8 @@ public class CountryApiTest {
                 .statusCode(200)
                 .body("size()" , greaterThan(0) )
                 .body("[0]" , hasKey("isoCode"))
-                .body("[0]" , hasKey("name"));
-    }
+                .body("[0]" , hasKey("name"));}
+
     @Test
     public void testGetAllCountries(){
         given()
@@ -38,25 +37,20 @@ public class CountryApiTest {
                 .statusCode(200)
                 .body("size()", greaterThan(0))
                 .body("[0]" , hasKey("names"))
-                .body("[0]" , hasKey("currency"));
+                .body("[0]" , hasKey("currency"));}
 
-    }
     @Test
     public void testGetCountryByName(){
         given()
                 .when().get("/api/v1/countries/Isl")
                 .then()
                 .statusCode(200)
-                .body("names", is("Islamic Republic of Afghanistan"));
+                .body("names", is("Islamic Republic of Afghanistan"));}
 
-    }
     @Test
     public void testGetCountryByIsoSoap_NotFound(){
         given()
                 .when().get("/api/v1/countries/soap/code/XYZ") // Ανύπαρκτος κωδικός
                 .then()
-                .statusCode(200);
-    }
-
-
+                .statusCode(200);}
 }

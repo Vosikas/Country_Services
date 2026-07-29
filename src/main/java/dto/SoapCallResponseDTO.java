@@ -1,6 +1,6 @@
-package DTO;
+package dto;
 
-public class SoapDTO {
+public class SoapCallResponseDTO {
     public String isoCode;
     public String name;
 

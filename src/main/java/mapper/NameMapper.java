@@ -1,9 +1,5 @@
-package resource;
-
-
-
-import DTO.CountriesDTO;
-import db.Countries;
+package mapper;
+import dto.CountryDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -11,7 +7,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "jakarta")
 public interface NameMapper {
     NameMapper INSTANCE = Mappers.getMapper(NameMapper.class);
-
     @Mapping(source="names" , target = "official")
-    CountriesDTO.NameDTO nameToDtoName(String names);
+    CountryDTO.NameDTO nameToDtoName(String names);
 }

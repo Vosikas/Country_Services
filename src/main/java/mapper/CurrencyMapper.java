@@ -1,8 +1,6 @@
-package resource;
-
-
-import DTO.CountriesDTO;
-import db.Countries;
+package mapper;
+import dto.CountryDTO;
+import db.Country;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -11,5 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface CurrencyMapper {
     CurrencyMapper INSTANCE = Mappers.getMapper(CurrencyMapper.class);
     @Mapping(source ="currency" , target ="name")
-    CountriesDTO.CurrencyDTO currencyToCurrencyDto(Countries countries);
+    CountryDTO.CurrencyDTO currencyToCurrencyDto(Country country);
 }

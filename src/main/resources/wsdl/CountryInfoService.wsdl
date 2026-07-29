@@ -552,12 +552,12 @@
 <output message="tns:FullCountryInfoSoapResponse"/>
 </operation>
 <operation name="FullCountryInfoAllCountries">
-<documentation>Returns an array with all countries and all the language information stored</documentation>
+<documentation>Returns an array with all country and all the language information stored</documentation>
 <input message="tns:FullCountryInfoAllCountriesSoapRequest"/>
 <output message="tns:FullCountryInfoAllCountriesSoapResponse"/>
 </operation>
 <operation name="CountriesUsingCurrency">
-<documentation>Returns a list of all countries that use the same currency code. Pass a ISO currency code</documentation>
+<documentation>Returns a list of all country that use the same currency code. Pass a ISO currency code</documentation>
 <input message="tns:CountriesUsingCurrencySoapRequest"/>
 <output message="tns:CountriesUsingCurrencySoapResponse"/>
 </operation>

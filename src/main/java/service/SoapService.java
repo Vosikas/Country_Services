@@ -1,20 +1,15 @@
 package service;
 
-import DTO.CountriesDTO;
-import db.Countries;
 import io.quarkiverse.cxf.annotation.CXFClient;
 import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.oorsprong.websamples.ArrayOftCountryCodeAndName;
-import org.oorsprong.websamples.TCountryCodeAndName;
 import org.oorsprong.websamples.TCountryInfo;
 import org.oorsprong.websamples_countryinfo.CountryInfoServiceSoapType;
 
-import java.util.List;
-
 @ApplicationScoped
-public class SOAPcaller {
+public class SoapService {
     @Inject
     @CXFClient("countryClient")
     CountryInfoServiceSoapType soapService;
