@@ -83,6 +83,10 @@ public class CountryService {
         return country;
     }
     public List<Country> FindCurrencyCode(String currency){
-        return Country.list("currency" , currency);
+        List<Country> countryList =Country.list("currency" , currency);
+        if(countryList.isEmpty()){
+            throw new CountryNotFoundException("There are no countries with " + currency + " as their currency");
+        }
+        return countryList;
     }
 }

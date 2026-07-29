@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.oorsprong.websamples.TCountryCodeAndName;
-import resource.CountryMapperImpl;
+import mapper.CountryMapperImpl;
 import service.CountryService;
 
 import java.util.ArrayList;
