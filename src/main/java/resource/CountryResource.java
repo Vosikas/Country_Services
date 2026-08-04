@@ -1,6 +1,6 @@
 package resource;
 import db.Country;
-import dto.SoapCallResponseDTO;
+import dto.SoapCallCountryResponseDTO;
 import io.quarkus.cache.CacheResult;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -25,7 +25,7 @@ public class CountryResource {
 
     @GET
     @CacheResult(cacheName = "rest-countries-list")
-    public List<Country> getAllCountries(@QueryParam("page")@DefaultValue("0") int page , @QueryParam("size") @DefaultValue("10") int size){
+    public List<Country> getCountries(@QueryParam("page")@DefaultValue("0") int page , @QueryParam("size") @DefaultValue("10") int size){
         return countryService.getCountries(page,size);
     }
 
@@ -49,7 +49,7 @@ public class CountryResource {
 
     @GET
     @Path("/soap/code")
-    public List<SoapCallResponseDTO> getAllCountriesSoap(){
+    public List<SoapCallCountryResponseDTO> getAllCountriesSoap(){
         return mapper.toSoapCountryDTOList(soapCaller.getAllCountries().getTCountryCodeAndName());
     }
 }

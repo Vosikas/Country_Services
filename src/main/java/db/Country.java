@@ -4,9 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Country extends PanacheEntity{
+public class Country extends PanacheEntity {
     @Column(nullable = false)
-    public String names;
+    public String name;
     @Column
     public String currency;
+
 }

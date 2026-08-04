@@ -1,7 +1,7 @@
 package mapper;
 
 import dto.CountryDTO;
-import dto.SoapCallResponseDTO;
+import dto.SoapCallCountryResponseDTO;
 import db.Country;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,10 +10,10 @@ import java.util.List;
 
 @Mapper(componentModel = "jakarta", uses = {NameMapper.class})
 public interface CountryMapper {
-        CountryDTO toDto(Country entity);
-        List<CountryDTO> toDtoList(List<Country> entities);
+        CountryDTO ToCountryDto(Country entity);
+        List<CountryDTO> toCountryDtoList(List<Country> entities);
         @Mapping(source = "SISOCode", target = "isoCode")
         @Mapping(source = "SName", target = "name")
-        SoapCallResponseDTO toSoapCountryDTO(TCountryCodeAndName soapCountry);
-        List<SoapCallResponseDTO> toSoapCountryDTOList(List<TCountryCodeAndName> soapCountries);
+        SoapCallCountryResponseDTO toSoapCountryDTO(TCountryCodeAndName soapCountry);
+        List<SoapCallCountryResponseDTO> toSoapCountryDTOList(List<TCountryCodeAndName> soapCountries);
 }

@@ -4,7 +4,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-@RegisterRestClient(baseUri = "https://api.restcountries.com" , configKey = "country-api")
+@RegisterRestClient(configKey = "country-api" )
 @ClientHeaderParam(name = "Authorization", value = "${api.external.auth-token}")
 public interface CountryClient {
     @GET

@@ -25,7 +25,7 @@ public class SoapService {
         Log.info("THE NAME IS " + country.getSName());
         if(country==null || country.getSName().equals("Country not found in the database")){
             throw new CountryNotFoundException("Country with ISO code: " + ISO + " was not found");
-        }
+    }
         return country.getSName();
     }
     @CacheResult(cacheName = "countries - list")

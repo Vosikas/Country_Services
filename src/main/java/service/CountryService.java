@@ -12,79 +12,84 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import client.CountryClient;
+import util.StringUtils;
 import java.util.List;
 
 @ApplicationScoped
 public class CountryService {
-    private static final Logger LOG = Logger.getLogger(CountryService.class);
     @Inject
     @RestClient
     CountryClient countryClient;
-
+    private static final Logger LOG = Logger.getLogger(CountryService.class);
     @Transactional
-    public void fetchAndSaveCountries()  {
-        if (Country.count() > 0) {
-            Log.info("System already full");
+    public void fetchAndSaveCountries() {
+        if (areCountriesLoaded()) {
+            Log.info("Data is already loaded in the Country Database");
             return;
         }
-        try {
-            String RawJSON  = countryClient.fetchCountries("names,currencies");
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode objectNode = mapper.readTree(RawJSON)
-                    .path("data")
-                    .path("objects");
-            List<CountryDTO> fetchData = mapper.readValue(
-                    objectNode.toString(),
-                    mapper.getTypeFactory().constructCollectionType(List.class, CountryDTO.class)
-            );
-            Log.info("Το API έφερε συνολικά: " + fetchData.size() + " χώρες.");
-            for (CountryDTO dto : fetchData) {
 
-                Country country = mapDtoToEntity(dto);
-                if (country == null){
-                    continue;
-                }
-                country.persist();
-            }
-            Log.info("Succesfully loaded " + Country.count() + " countries.");
+        try {
+            List<CountryDTO> fetchedCountries = fetchAndресеtDeserializeCountries();
+            saveCountries(fetchedCountries);
+
+            Log.info("Successfully loaded " + Country.count() + " countries.");
         } catch (Exception e) {
             Log.error("Failed to hit API " + e.getMessage());
-            throw new GenericErrorException("Internal error while fetching and saving countries");
+            throw new GenericErrorException("Internal error while fetching and saving countries: " + e.getMessage());
         }
     }
-
-    public Country mapDtoToEntity(CountryDTO dto) {
+    private boolean areCountriesLoaded() {
+        return Country.count() > 0;
+    }
+    private List<CountryDTO> fetchAndресеtDeserializeCountries() throws Exception {
+        String rawJson = countryClient.fetchCountries("names,currencies");
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode objectNode = mapper.readTree(rawJson)
+                .path("data")
+                .path("objects");
+        return mapper.readValue(
+                objectNode.toString(),
+                mapper.getTypeFactory().constructCollectionType(List.class, CountryDTO.class)
+        );
+    }
+    private void saveCountries(List<CountryDTO> countryDtos) {
+        for (CountryDTO dto : countryDtos) {
+            Country country = mapDtoToEntity(dto);
+            if (country != null) {
+                country.persist();
+            }
+        }
+    }
+    protected Country mapDtoToEntity(CountryDTO dto) {
         Country country = new Country();
-        country.names = dto.name.official;
-        if (dto.currencies != null && !dto.currencies.isEmpty()) {
-
-            country.currency = dto.currencies.get(0).name;
+        country.name = dto.getName().getOfficial();
+        if (dto.getCurrencies() != null && !dto.getCurrencies().isEmpty()) {
+            country.currency = dto.getCurrencies().get(0).getName();
         } else {
             country.currency = "none";
         }
-
         return country;
     }
-
-    public List<Country> getCountries(int page , int size){
+    public List<Country> getCountries(int page, int size) {
         List<Country> countriesList = Country.findAll()
-                .page(page,size)
+                .page(page, size)
                 .list();
-        if (countriesList.isEmpty()){
-            throw new GenericErrorException("No countries were found");}
+        if (countriesList.isEmpty()) {
+            throw new GenericErrorException("No countries were found");
+        }
         return countriesList;
     }
     public Country FindCountry(String names) throws CountryNotFoundException {
-        String query_name = STR."%\{names.toLowerCase()}%";
-        Country country =  Country.find("LOWER(names) LIKE ?1", query_name).firstResult();
-        if(country == null){
-            throw new CountryNotFoundException("Country with name "+ query_name + " was not found");
+        String queryName = StringUtils.stringToLower(names);
+        Country country = Country.find("LOWER(name) LIKE ?1", queryName).firstResult();
+        if (country == null) {
+            throw new CountryNotFoundException("Country with name " + queryName + " was not found");
         }
         return country;
     }
-    public List<Country> FindCurrencyCode(String currency){
-        List<Country> countryList =Country.list("currency" , currency);
-        if(countryList.isEmpty()){
+    public List<Country> FindCurrencyCode(String currency) {
+        List<Country> countryList = Country.list("currency", currency);
+        if (countryList.isEmpty()) {
             throw new CountryNotFoundException("There are no countries with " + currency + " as their currency");
         }
         return countryList;

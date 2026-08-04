@@ -1,13 +1,13 @@
 package mapper;
-import dto.CountryDTO;
+
 import db.Country;
+import dto.CountryDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI)
 public interface CurrencyMapper {
-    CurrencyMapper INSTANCE = Mappers.getMapper(CurrencyMapper.class);
-    @Mapping(source ="currency" , target ="name")
-    CountryDTO.CurrencyDTO currencyToCurrencyDto(Country country);
+    @Mapping(source = "currency", target = "name")
+    CountryDTO.CurrencyDTO toCurrencyDto(Country country);
 }

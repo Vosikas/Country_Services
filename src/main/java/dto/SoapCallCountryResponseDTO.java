@@ -1,8 +1,8 @@
 package dto;
 
-public class SoapCallResponseDTO {
-    public String isoCode;
-    public String name;
+public class SoapCallCountryResponseDTO {
+    private String isoCode;
+    private String name;
 
     public String getIsoCode() { return isoCode; }
     public void setIsoCode(String isoCode) { this.isoCode = isoCode; }

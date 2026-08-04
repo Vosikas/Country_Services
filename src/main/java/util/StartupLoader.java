@@ -1,4 +1,5 @@
 package util;
+import io.quarkus.arc.profile.UnlessBuildProfile;
 import io.quarkus.logging.Log;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -8,6 +9,7 @@ import org.jboss.logging.Logger;
 import service.CountryService;
 
 @ApplicationScoped
+@UnlessBuildProfile("test")
 public class StartupLoader {
     @Inject
     CountryService countryService;

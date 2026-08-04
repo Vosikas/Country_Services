@@ -18,7 +18,7 @@ class ExceptionsMapperTest {
     @Test
     void TestCountryNotFoundException(){
         CountryNotFoundException ex = new CountryNotFoundException("Country not found");
-        RestResponse<ErrorResponseBodyDTO> response = exceptionsMapper.mapCountryNotFoundException(ex);
+        RestResponse<ErrorResponseBodyDTO> response = exceptionsMapper.MapCountryNotFoundException(ex);
         ErrorResponseBodyDTO error = response.getEntity();
         assertEquals("Country not found" ,error.getMessage());
         assertEquals(404,error.getStatusCode());}
@@ -26,7 +26,7 @@ class ExceptionsMapperTest {
     @Test
     void TestCountryNotLoadException(){
         CountryLoadException ex = new CountryLoadException("Country not load");
-        RestResponse<ErrorResponseBodyDTO> response = exceptionsMapper.mapCountryLoadException(ex);
+        RestResponse<ErrorResponseBodyDTO> response = exceptionsMapper.MapCountryLoadException(ex);
         ErrorResponseBodyDTO error = response.getEntity();
         assertEquals("Country not load",error.getMessage());
         assertEquals(500,error.getStatusCode());
@@ -35,10 +35,10 @@ class ExceptionsMapperTest {
 
     @Test
     void TestGeneric_Throwable() {
-        GenericErrorException ex = new GenericErrorException("An unexpected error occurred");
-        RestResponse<ErrorResponseBodyDTO> response = exceptionsMapper.mapGeneric_Throwable(ex);
+        GenericErrorException ex = new GenericErrorException("New problem here");
+        RestResponse<ErrorResponseBodyDTO> response = exceptionsMapper.MapGenericErrorException(ex);
         ErrorResponseBodyDTO error = response.getEntity();
-        assertEquals("An unexpected error occurred", error.getMessage());
+        assertEquals("An unexpected error occurred: New problem here" , error.getMessage());
         assertEquals(500, error.getStatusCode());
     }
 

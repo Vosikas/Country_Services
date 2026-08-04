@@ -1,12 +1,12 @@
 package mapper;
+
 import dto.CountryDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = "jakarta")
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI)
 public interface NameMapper {
-    NameMapper INSTANCE = Mappers.getMapper(NameMapper.class);
-    @Mapping(source="names" , target = "official")
-    CountryDTO.NameDTO nameToDtoName(String names);
+    @Mapping(source = "names", target = "official")
+    CountryDTO.Name toDtoName(String names);
 }
