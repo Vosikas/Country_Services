@@ -1,12 +1,12 @@
+package mapper;
+
 import db.Country;
 import dto.CountryDTO;
 import dto.SoapCallCountryResponseDTO;
-import mapper.CountryMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.oorsprong.websamples.TCountryCodeAndName;
-import mapper.CountryMapperImpl;
 import service.CountryService;
 
 import java.util.ArrayList;
@@ -28,12 +28,12 @@ class CountryMapperTest extends CountryService {
         CountryDTO mockDTO = new CountryDTO();
         mockDTO.setName(new CountryDTO.Name());
         mockDTO.getName().setOfficial("America");
-        CountryDTO.CurrencyDTO mockCurrency = new CountryDTO.CurrencyDTO();
+        CountryDTO.Currency mockCurrency = new CountryDTO.Currency();
         mockCurrency.setName("Dollar");
 
-        Map<String, CountryDTO.CurrencyDTO> mockMAP = new HashMap<>();
+        Map<String, CountryDTO.Currency> mockMAP = new HashMap<>();
         mockMAP.put("Dollar",mockCurrency);
-        List<CountryDTO.CurrencyDTO> mockList = new ArrayList<>();
+        List<CountryDTO.Currency> mockList = new ArrayList<>();
         mockList.add(mockCurrency);
         mockDTO.setCurrencies(mockList);
         Country result = mapDtoToEntity(mockDTO);
@@ -46,7 +46,7 @@ class CountryMapperTest extends CountryService {
         CountryDTO mockDTO = new CountryDTO();
         mockDTO.setName(new CountryDTO.Name());
         mockDTO.getName().setOfficial("America");
-        CountryDTO.CurrencyDTO mockCurrency = new CountryDTO.CurrencyDTO();
+        CountryDTO.Currency mockCurrency = new CountryDTO.Currency();
         mockCurrency = null;
         Country result = mapDtoToEntity(mockDTO);
         assertEquals("America" , result.name);

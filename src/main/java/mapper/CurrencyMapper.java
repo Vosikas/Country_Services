@@ -8,6 +8,8 @@ import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI)
 public interface CurrencyMapper {
-    @Mapping(source = "currency", target = "name")
-    CountryDTO.CurrencyDTO toCurrencyDto(Country country);
+    @Mapping(target = "name", source = "currency")
+    CountryDTO.Currency fromCountryCurrency(Country country);
+
+
 }

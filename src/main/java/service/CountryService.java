@@ -29,7 +29,7 @@ public class CountryService {
         }
 
         try {
-            List<CountryDTO> fetchedCountries = fetchAndресеtDeserializeCountries();
+            List<CountryDTO> fetchedCountries = fetchAndDeserializeCountries();
             saveCountries(fetchedCountries);
 
             Log.info("Successfully loaded " + Country.count() + " countries.");
@@ -41,7 +41,7 @@ public class CountryService {
     private boolean areCountriesLoaded() {
         return Country.count() > 0;
     }
-    private List<CountryDTO> fetchAndресеtDeserializeCountries() throws Exception {
+    private List<CountryDTO> fetchAndDeserializeCountries() throws Exception {
         String rawJson = countryClient.fetchCountries("names,currencies");
         ObjectMapper mapper = new ObjectMapper();
         JsonNode objectNode = mapper.readTree(rawJson)
@@ -79,15 +79,15 @@ public class CountryService {
         }
         return countriesList;
     }
-    public Country FindCountry(String names) throws CountryNotFoundException {
+    public Country findCountry(String names) throws CountryNotFoundException {
         String queryName = StringUtils.stringToLower(names);
-        Country country = Country.find("LOWER(name) LIKE ?1", queryName).firstResult();
+        Country country = Country.find("LOWER(name) LIKE ?1", "%" + queryName + "%").firstResult();
         if (country == null) {
             throw new CountryNotFoundException("Country with name " + queryName + " was not found");
         }
         return country;
     }
-    public List<Country> FindCurrencyCode(String currency) {
+    public List<Country> findCurrencyCode(String currency) {
         List<Country> countryList = Country.list("currency", currency);
         if (countryList.isEmpty()) {
             throw new CountryNotFoundException("There are no countries with " + currency + " as their currency");

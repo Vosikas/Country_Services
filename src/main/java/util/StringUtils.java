@@ -4,9 +4,8 @@ public class StringUtils {
 
     public static String stringToLower(String name) {
         if (name == null) {
-            return "%";
+            return null;
         }
-
-        return STR."%\{name.toLowerCase()}%";
+        return name.toLowerCase();
     }
 }

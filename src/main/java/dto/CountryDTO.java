@@ -1,7 +1,6 @@
 package dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import db.Country;
 
 import java.util.List;
 
@@ -9,7 +8,7 @@ import java.util.List;
 public class CountryDTO {
 
     @JsonProperty("currencies")
-    private List<CurrencyDTO> currencies;
+    private List<Currency> currencies;
 
     @JsonProperty("names")
     private Name name;
@@ -25,7 +24,7 @@ public class CountryDTO {
         }
     }
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class CurrencyDTO{
+    public static class Currency {
             private String name;
         public void setName(String name) {
             this.name = name;
@@ -38,7 +37,7 @@ public class CountryDTO {
         return name;
     }
 
-    public List<CurrencyDTO> getCurrencies() {
+    public List<Currency> getCurrencies() {
         return currencies;
     }
 
@@ -46,8 +45,7 @@ public class CountryDTO {
         this.name = name;
     }
 
-    public void setCurrencies(List<CurrencyDTO> currencies) {
+    public void setCurrencies(List<Currency> currencies) {
         this.currencies = currencies;
     }
 }
-

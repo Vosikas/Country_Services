@@ -9,20 +9,20 @@ import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 public class ExceptionsMapper {
     @ServerExceptionMapper
-    public RestResponse<ErrorResponseBodyDTO> MapCountryNotFoundException(CountryNotFoundException ex){
+    public RestResponse<ErrorResponseBodyDTO> mapCountryNotFoundException(CountryNotFoundException ex){
             ErrorResponseBodyDTO error = new ErrorResponseBodyDTO(ex.getMessage(),404);
-            return RestResponse.status(Response.Status.NOT_FOUND , error);
+            return RestResponse.status(Response.Status.NOT_FOUND,error);
     }
 
     @ServerExceptionMapper
-    public RestResponse<ErrorResponseBodyDTO> MapCountryLoadException(CountryLoadException ex){
+    public RestResponse<ErrorResponseBodyDTO> mapCountryLoadException(CountryLoadException ex){
         ErrorResponseBodyDTO error = new ErrorResponseBodyDTO(ex.getMessage() ,500);
-        return RestResponse.status(Response.Status.INTERNAL_SERVER_ERROR , error);
+        return RestResponse.status(Response.Status.INTERNAL_SERVER_ERROR,error);
     }
 
     @ServerExceptionMapper
-    public RestResponse<ErrorResponseBodyDTO> MapGenericErrorException(GenericErrorException ex){
+    public RestResponse<ErrorResponseBodyDTO> mapGenericErrorException(GenericErrorException ex){
         ErrorResponseBodyDTO error = new ErrorResponseBodyDTO("An unexpected error occurred: " + ex.getMessage() , 500 );
-        return RestResponse.status(Response.Status.INTERNAL_SERVER_ERROR , error);
+        return RestResponse.status(Response.Status.INTERNAL_SERVER_ERROR,error);
     }
 }

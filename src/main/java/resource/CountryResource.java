@@ -32,13 +32,13 @@ public class CountryResource {
     @GET
     @Path("/{names}")
     public Country getCountryByName(@PathParam("names") String names){
-        return countryService.FindCountry(names);
+        return countryService.findCountry(names);
     }
 
     @GET
     @Path("/currency/{currencyCode}")
     public List<Country> findCountriesByCurrency(@PathParam("currencyCode") String currencyCode){
-        return countryService.FindCurrencyCode(currencyCode);
+        return countryService.findCurrencyCode(currencyCode);
     }
 
     @GET

@@ -8,5 +8,5 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.CDI)
 public interface NameMapper {
     @Mapping(source = "names", target = "official")
-    CountryDTO.Name toDtoName(String names);
+    CountryDTO.Name fromCountryName(String names);
 }

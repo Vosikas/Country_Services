@@ -1,3 +1,5 @@
+package resource;
+
 import db.Country;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.transaction.Transactional;
@@ -16,13 +18,12 @@ import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.is;
 
 @QuarkusTest
-public class CountryApiTest {
+public class CountryResourceTest {
     private static WireMockServer wireMockServer;
     @BeforeAll
     static void startWireMock() {
         wireMockServer = new WireMockServer(wireMockConfig().dynamicPort());
         wireMockServer.start();
-        // Ενημερώνουμε το Quarkus REST Client δυναμικά για το ποια θύρα άνοιξε ο server!
         System.setProperty("quarkus.rest-client.country-api.url", wireMockServer.baseUrl());
     }
     @AfterAll
