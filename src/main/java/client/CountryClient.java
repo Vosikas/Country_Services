@@ -5,7 +5,7 @@ import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient(configKey = "country-api" )
-@ClientHeaderParam(name = "Authorization", value = "${api.external.auth-token}")
+@ClientHeaderParam(name = "Authorization", value = "${API_AUTH_TOKEN")
 public interface CountryClient {
     @GET
     @Path("/countries/v5")
