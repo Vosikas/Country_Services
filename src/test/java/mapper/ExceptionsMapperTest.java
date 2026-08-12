@@ -6,10 +6,14 @@ import exceptions.CountryNotFoundException;
 import exceptions.GenericErrorException;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Nested
+@DisplayName("Exceptions testing")
 class ExceptionsMapperTest {
     private ExceptionsMapper exceptionsMapper;
 

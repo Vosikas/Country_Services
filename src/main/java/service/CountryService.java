@@ -4,6 +4,7 @@ import dto.CountryDTO;
 import exceptions.CountryNotFoundException;
 import exceptions.GenericErrorException;
 import io.quarkus.logging.Log;
+import mapper.CountryMapper;
 import org.jboss.logging.Logger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,34 +21,25 @@ public class CountryService {
     @Inject
     @RestClient
     CountryClient countryClient;
+    @Inject
+    CountryMapper countryMapper;
+
     private static final Logger LOG = Logger.getLogger(CountryService.class);
+
     @Transactional
     public void fetchAndSaveCountries() {
         if (areCountriesLoaded()) {
             Log.info("Data is already loaded in the Country Database");
             return;
         }
-
         try {
             List<CountryDTO> fetchedCountries = fetchAndDeserializeCountries();
             saveCountries(fetchedCountries);
-
             Log.info("Successfully loaded " + Country.count() + " countries.");
         } catch (Exception e) {
             Log.error("Failed to hit API " + e.getMessage());
             throw new GenericErrorException("Internal error while fetching and saving countries: " + e.getMessage());
         }
-    }
-
-    public Country mapDtoToEntity(CountryDTO dto) {
-        Country country = new Country();
-        country.name = dto.getName().getOfficial();
-        if (dto.getCurrencies() != null && !dto.getCurrencies().isEmpty()) {
-            country.currency = dto.getCurrencies().get(0).getName();
-        } else {
-            country.currency = "none";
-        }
-        return country;
     }
 
     public List<Country> getCountries(int page, int size) {
@@ -95,7 +87,7 @@ public class CountryService {
 
     private void saveCountries(List<CountryDTO> countryDtos) {
         for (CountryDTO dto : countryDtos) {
-            Country country = mapDtoToEntity(dto);
+            Country country = countryMapper.mapDtoToEntity(dto);
             if (country != null) {
                 country.persist();
             }

@@ -13,7 +13,9 @@ import service.CountryService;
 public class StartupLoader {
     @Inject
     CountryService countryService;
+
     private static final Logger LOG = Logger.getLogger(StartupLoader.class);
+
     public void putData(@Observes StartupEvent loader) {
         Log.info("Server started");
         countryService.fetchAndSaveCountries();

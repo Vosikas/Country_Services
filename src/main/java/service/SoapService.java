@@ -28,6 +28,7 @@ public class SoapService {
     }
         return country.getSName();
     }
+
     @CacheResult(cacheName = "countries - list")
     public ArrayOftCountryCodeAndName getAllCountries() {
         ArrayOftCountryCodeAndName soapCountryList = soapService.listOfCountryNamesByCode();
