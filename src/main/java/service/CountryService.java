@@ -38,9 +38,49 @@ public class CountryService {
             throw new GenericErrorException("Internal error while fetching and saving countries: " + e.getMessage());
         }
     }
+
+    public Country mapDtoToEntity(CountryDTO dto) {
+        Country country = new Country();
+        country.name = dto.getName().getOfficial();
+        if (dto.getCurrencies() != null && !dto.getCurrencies().isEmpty()) {
+            country.currency = dto.getCurrencies().get(0).getName();
+        } else {
+            country.currency = "none";
+        }
+        return country;
+    }
+
+    public List<Country> getCountries(int page, int size) {
+        List<Country> countriesList = Country.findAll()
+                .page(page, size)
+                .list();
+        if (countriesList.isEmpty()) {
+            throw new GenericErrorException("No countries were found");
+        }
+        return countriesList;
+    }
+
+    public Country findCountry(String names) throws CountryNotFoundException {
+        String queryName = StringUtils.stringToLower(names);
+        Country country = Country.find("LOWER(name) LIKE ?1", "%" + queryName + "%").firstResult();
+        if (country == null) {
+            throw new CountryNotFoundException("Country with name " + queryName + " was not found");
+        }
+        return country;
+    }
+
+    public List<Country> findCurrencyCode(String currency) {
+        List<Country> countryList = Country.list("currency", currency);
+        if (countryList.isEmpty()) {
+            throw new CountryNotFoundException("There are no countries with " + currency + " as their currency");
+        }
+        return countryList;
+    }
+
     private boolean areCountriesLoaded() {
         return Country.count() > 0;
     }
+
     private List<CountryDTO> fetchAndDeserializeCountries() throws Exception {
         String rawJson = countryClient.fetchCountries("names,currencies");
         ObjectMapper mapper = new ObjectMapper();
@@ -52,6 +92,7 @@ public class CountryService {
                 mapper.getTypeFactory().constructCollectionType(List.class, CountryDTO.class)
         );
     }
+
     private void saveCountries(List<CountryDTO> countryDtos) {
         for (CountryDTO dto : countryDtos) {
             Country country = mapDtoToEntity(dto);
@@ -60,38 +101,5 @@ public class CountryService {
             }
         }
     }
-    protected Country mapDtoToEntity(CountryDTO dto) {
-        Country country = new Country();
-        country.name = dto.getName().getOfficial();
-        if (dto.getCurrencies() != null && !dto.getCurrencies().isEmpty()) {
-            country.currency = dto.getCurrencies().get(0).getName();
-        } else {
-            country.currency = "none";
-        }
-        return country;
-    }
-    public List<Country> getCountries(int page, int size) {
-        List<Country> countriesList = Country.findAll()
-                .page(page, size)
-                .list();
-        if (countriesList.isEmpty()) {
-            throw new GenericErrorException("No countries were found");
-        }
-        return countriesList;
-    }
-    public Country findCountry(String names) throws CountryNotFoundException {
-        String queryName = StringUtils.stringToLower(names);
-        Country country = Country.find("LOWER(name) LIKE ?1", "%" + queryName + "%").firstResult();
-        if (country == null) {
-            throw new CountryNotFoundException("Country with name " + queryName + " was not found");
-        }
-        return country;
-    }
-    public List<Country> findCurrencyCode(String currency) {
-        List<Country> countryList = Country.list("currency", currency);
-        if (countryList.isEmpty()) {
-            throw new CountryNotFoundException("There are no countries with " + currency + " as their currency");
-        }
-        return countryList;
-    }
+
 }

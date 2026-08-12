@@ -20,6 +20,7 @@ class HappyPath{
         assertNotNull(nameDto, "Name should not be null");
         assertEquals("Hellenic Republic", nameDto.getOfficial(), "Name should be registered correctly");
     }}
+
 @Nested
 @DisplayName("Unhappy cases - Error Handling")
 class UnhappyPath{
