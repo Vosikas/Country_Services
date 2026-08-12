@@ -1,14 +1,16 @@
-package DTO;
+package dto;
 
 import java.time.LocalDateTime;
 
-public class ErrorsDTO {
+public class ErrorResponseBodyDTO {
+    
     private String message;
     private int statusCode;
     private String timestamp;
-    public ErrorsDTO(String message,int statusCode){
+
+    public ErrorResponseBodyDTO(String message, int statusCode){
             this.message = message;
-            this.statusCode =statusCode;
+            this.statusCode = statusCode;
             this.timestamp = LocalDateTime.now().toString();
     }
     public String getMessage(){
@@ -17,5 +19,9 @@ public class ErrorsDTO {
 
     public int getStatusCode() {
         return statusCode;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 }

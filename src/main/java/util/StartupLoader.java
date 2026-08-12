@@ -1,29 +1,24 @@
-package service;
-
-
-import DTO.CountriesDTO;
-import db.Countries;
+package util;
+import io.quarkus.arc.profile.UnlessBuildProfile;
 import io.quarkus.logging.Log;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import resource.CountryClient;
-
-import java.util.List;
 import org.jboss.logging.Logger;
+import service.CountryService;
 
 @ApplicationScoped
+@UnlessBuildProfile("test")
 public class StartupLoader {
     @Inject
-    CountryCaller countryCaller ;
+    CountryService countryService;
+
     private static final Logger LOG = Logger.getLogger(StartupLoader.class);
+
     public void putData(@Observes StartupEvent loader) {
         Log.info("Server started");
-        countryCaller.fetchAndSaveCountries();
-
+        countryService.fetchAndSaveCountries();
     }}
 
 
